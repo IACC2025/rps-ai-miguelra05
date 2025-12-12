@@ -139,125 +139,53 @@ def preparar_datos(df: pd.DataFrame) -> pd.DataFrame:
 
 def crear_features(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Crea las features (caracteristicas) para el modelo.
+    Crea las features (características) para el modelo.
+    SOLO 8 FEATURES BÁSICAS para garantizar consistencia.
     """
     df = df.copy()
 
-    # FEATURE 1: Frecuencia de cada jugada (expanding y rolling)
+    # FEATURE 1-3: Frecuencias básicas de las últimas 5 jugadas
     for jugada, num in JUGADA_A_NUM.items():
-        # Frecuencia histórica total
-        df[f'freq_{jugada}_total'] = (df['jugada_j2_num'] == num).expanding().mean().shift(1)
-
-        # Frecuencia en ventana corta (últimas 5 rondas)
-        df[f'freq_{jugada}_corto'] = df['jugada_j2_num'].rolling(
+        df[f'freq_{jugada}_5'] = df['jugada_j2_num'].rolling(
             window=5, min_periods=1
         ).apply(lambda x: (x == num).mean()).shift(1)
 
-        # Frecuencia en ventana media (últimas 10 rondas)
-        df[f'freq_{jugada}_medio'] = df['jugada_j2_num'].rolling(
-            window=10, min_periods=1
-        ).apply(lambda x: (x == num).mean()).shift(1)
+    # FEATURE 4: Última jugada del oponente
+    df['ultima_jugada'] = df['jugada_j2_num'].shift(1)
 
-    # FEATURE 2: Historial extendido (últimas 5 jugadas)
-    for i in range(1, 6):
-        df[f'jugada_t-{i}'] = df['jugada_j2_num'].shift(i)
+    # FEATURE 5: ¿Repitió la última jugada?
+    df['repetido'] = (df['jugada_j2_num'].shift(1) == df['jugada_j2_num'].shift(2)).astype(float)
 
-    # FEATURE 3: Patrones de transición (qué hace después de secuencias)
-    # Últimos 2 movimientos como patrón
-    df['patron_2mov'] = df['jugada_j2_num'].shift(1).astype(str) + "_" + df['jugada_j2_num'].shift(2).astype(str)
-
-    # Frecuencia de cada patrón de 2 movimientos
-    patrones_2mov = df['patron_2mov'].unique()
-    for patron in patrones_2mov:
-        if isinstance(patron, str) and patron != 'nan_nan':
-            df[f'patron_{patron}_freq'] = (df['patron_2mov'] == patron).expanding().mean().shift(1)
-
-    # FEATURE 4: Comportamiento por resultado (mejorado)
-    # Calcular resultado
-    def calcular_resultado(j1, j2):
-        if j1 == j2:
-            return 0  # empate
-        if (j1 == 0 and j2 == 2) or (j1 == 2 and j2 == 1) or (j1 == 1 and j2 == 0):
-            return 1  # j1 gana
-        return -1  # j2 gana
-
+    # FEATURE 6: Resultado de la ronda anterior
     df['resultado'] = df.apply(
-        lambda row: calcular_resultado(row['jugada_j1_num'], row['jugada_j2_num']),
+        lambda row: 1 if GANA_A[row['jugada_j1']] == row['jugada_j2'] else
+        (-1 if GANA_A[row['jugada_j2']] == row['jugada_j1'] else 0),
         axis=1
     )
-
-    # Resultado anterior
     df['resultado_anterior'] = df['resultado'].shift(1)
 
-    # Momentum (diferencia de victorias en últimas 3 rondas)
-    df['momentum_3'] = df['resultado'].rolling(window=3, min_periods=1).sum()
-
-    # ¿Qué juega después de ganar/perder/empatar? (one-hot por jugada)
-    for res_nombre, res_valor in [('ganar', -1), ('perder', 1), ('empatar', 0)]:
-        for jugada, num in JUGADA_A_NUM.items():
-            col_name = f'despues_{res_nombre}_{jugada}'
-            mask = df['resultado'].shift(1) == res_valor
-            df[col_name] = 0
-            df.loc[mask & (df['jugada_j2_num'] == num), col_name] = 1
-            df[col_name] = df[col_name].expanding().mean().shift(1)
-
-    # FEATURE 5: Racha y patrones de repetición (mejorado)
-    if 'racha_actual' in df.columns:
-        df['racha'] = df['racha_actual'].shift(1)
-    else:
-        df['racha'] = 0
-        for i in range(1, len(df)):
-            if df['jugada_j2_num'].iloc[i] == df['jugada_j2_num'].iloc[i - 1]:
-                df['racha'].iloc[i] = df['racha'].iloc[i - 1] + 1
-
-    # Probabilidad de cambiar tras racha larga
-    df['prob_cambiar_racha'] = 0
-    for i in range(1, len(df)):
-        if df['racha'].iloc[i - 1] >= 2:
-            df['prob_cambiar_racha'].iloc[i] = 1 if df['jugada_j2_num'].iloc[i] != df['jugada_j2_num'].iloc[
-                i - 1] else 0
-    df['prob_cambiar_racha'] = df['prob_cambiar_racha'].expanding().mean().shift(1)
-
-    # FEATURE 6: Reacción a tu comportamiento
-    # ¿Qué juega cuando TÚ repites?
-    df['tu_repetiste'] = (df['jugada_j1_num'].shift(1) == df['jugada_j1_num'].shift(2)).astype(float)
-
-    # Frecuencia por jugada cuando tú repites
-    for jugada, num in JUGADA_A_NUM.items():
-        col_name = f'vs_tu_repite_{jugada}'
-        mask = df['tu_repetiste'] == 1
-        df[col_name] = 0
-        df.loc[mask & (df['jugada_j2_num'] == num), col_name] = 1
-        df[col_name] = df[col_name].expanding().mean().shift(1)
-
-    # FEATURE 7: Tendencia y cambios recientes
-    # ¿Ha cambiado en las últimas 3 rondas?
-    df['cambio_reciente'] = (
-                                    (df['jugada_j2_num'] != df['jugada_j2_num'].shift(1)).astype(int) +
-                                    (df['jugada_j2_num'].shift(1) != df['jugada_j2_num'].shift(2)).astype(int)
-                            ) / 2
-
-    # Tendencia dominante en ventana 3
-    for jugada, num in JUGADA_A_NUM.items():
-        df[f'tendencia_{jugada}_3'] = df['jugada_j2_num'].rolling(
-            window=3, min_periods=1
-        ).apply(lambda x: (x == num).mean()).shift(1)
-
-    # FEATURE 8: Posición en el juego (si es relevante)
+    # FEATURE 7: Fase del juego (normalizada)
     if 'numero_ronda' in df.columns:
-        max_ronda = df['numero_ronda'].max()
-        df['fase_juego'] = df['numero_ronda'] / max_ronda if max_ronda > 0 else 0
+        df['fase_juego'] = df['numero_ronda'] / 50.0
+    else:
+        df['fase_juego'] = df.index / 50.0
+
+    # FEATURE 8: Tendencia (qué jugada domina en últimas 3)
+    # Calculamos cuál es la jugada más frecuente en últimas 3
+    def tendencia_dominante(x):
+        if len(x) == 0:
+            return 0
+        counts = np.bincount(x.astype(int), minlength=3)
+        return np.argmax(counts)  # 0, 1 o 2
+
+    df['tendencia_3'] = df['jugada_j2_num'].rolling(
+        window=3, min_periods=1
+    ).apply(tendencia_dominante).shift(1)
 
     # Eliminar filas con NaN
     df = df.dropna()
 
-    # Contar features creadas
-    total_features = len([c for c in df.columns if any(x in c for x in
-                                                       ['freq_', 'jugada_t-', 'patron_', 'despues_', 'tendencia_',
-                                                        'racha', 'prob_', 'vs_tu_', 'cambio_', 'fase_', 'resultado_',
-                                                        'momentum_'])])
-
-    print(f"✅ Features creadas: {total_features} características en {len(df)} filas")
+    print(f" Features creadas: 8 características básicas en {len(df)} filas")
 
     return df
 
@@ -265,70 +193,27 @@ def crear_features(df: pd.DataFrame) -> pd.DataFrame:
 def seleccionar_features(df: pd.DataFrame) -> tuple:
     """
     Selecciona las features para entrenar y el target.
+    Usa TODAS las 8 features básicas.
     """
-    print("\n🎯 Seleccionando features óptimas...")
+    print("\n Seleccionando features...")
 
-    # Columnas que NO son features
-    exclude_cols = [
-        'numero_ronda', 'jugada_j1', 'jugada_j2',
-        'jugada_j1_num', 'jugada_j2_num', 'proxima_jugada_j2',
-        'resultado', 'patron_2mov'
+    # SOLO estas 8 features básicas
+    feature_cols = [
+        'freq_piedra_5', 'freq_papel_5', 'freq_tijera_5',
+        'ultima_jugada', 'repetido', 'resultado_anterior',
+        'fase_juego', 'tendencia_3'
     ]
 
-    # Añadir columnas extras si existen
-    for col in ['ganador', 'partida_id']:
-        if col in df.columns:
-            exclude_cols.append(col)
-
-    # Todas las columnas excepto las excluidas son candidatas
-    todas_features = [col for col in df.columns if col not in exclude_cols]
-
-    # Selección basada en importancia (si hay muchas features)
-    if len(todas_features) > 20:
-        from sklearn.ensemble import RandomForestClassifier
-
-        # Entrenar modelo rápido para importancia
-        X_temp = df[todas_features]
-        y_temp = df['proxima_jugada_j2']
-
-        # Muestreo para velocidad
-        if len(X_temp) > 500:
-            sample_idx = np.random.choice(len(X_temp), 500, replace=False)
-            X_sample = X_temp.iloc[sample_idx]
-            y_sample = y_temp.iloc[sample_idx]
-        else:
-            X_sample = X_temp
-            y_sample = y_temp
-
-        rf_temp = RandomForestClassifier(
-            n_estimators=50,
-            max_depth=5,
-            random_state=42,
-            n_jobs=-1
-        )
-        rf_temp.fit(X_sample, y_sample)
-
-        # Obtener importancia
-        importancias = pd.DataFrame({
-            'feature': todas_features,
-            'importancia': rf_temp.feature_importances_
-        }).sort_values('importancia', ascending=False)
-
-        # Seleccionar top features
-        n_features = min(25, len(todas_features))
-        feature_cols = importancias.head(n_features)['feature'].tolist()
-
-        print(f"   Seleccionadas top {n_features}/{len(todas_features)} features por importancia")
-        print(f"   Top 5: {feature_cols[:5]}")
-
-    else:
-        feature_cols = todas_features
-        print(f"   Usando todas las {len(feature_cols)} features")
+    # Verificar que existen
+    for col in feature_cols:
+        if col not in df.columns:
+            print(f"⚠️  Advertencia: Feature '{col}' no encontrada")
 
     # Crear X e y
     X = df[feature_cols].values
     y = df['proxima_jugada_j2'].values
 
+    print(f"   Usando {len(feature_cols)} features básicas")
     print(f"   X shape: {X.shape}, y shape: {y.shape}")
 
     return X, y
@@ -339,10 +224,10 @@ def seleccionar_features(df: pd.DataFrame) -> tuple:
 
 def entrenar_modelo(X, y, test_size: float = 0.2):
     """
-    Entrena el modelo de predicción mejorado.
+    Entrena el modelo de predicción.
     """
     print("\n" + "=" * 60)
-    print("🎯 ENTRENANDO MODELOS MEJORADOS")
+    print("ENTRENANDO MODELOS ")
     print("=" * 60)
 
     # 1. Dividir datos
@@ -350,7 +235,7 @@ def entrenar_modelo(X, y, test_size: float = 0.2):
         X, y, test_size=test_size, random_state=42, shuffle=True, stratify=y
     )
 
-    print(f"📊 Datos divididos:")
+    print(f" Datos divididos:")
     print(f"   • Entrenamiento: {X_train.shape[0]} muestras")
     print(f"   • Prueba: {X_test.shape[0]} muestras")
     print(f"   • Features: {X_train.shape[1]}")
@@ -401,10 +286,10 @@ def entrenar_modelo(X, y, test_size: float = 0.2):
     mejor_nombre = ""
     mejor_accuracy = 0
 
-    print(f"\n🔬 Probando {len(modelos)} modelos con validación cruzada:")
+    print(f"\n Probando {len(modelos)} modelos con validación cruzada:")
 
     for nombre, modelo in modelos.items():
-        print(f"\n   🔄 {nombre}")
+        print(f"\n    {nombre}")
 
         try:
             # Validación cruzada para estimar rendimiento
@@ -412,7 +297,7 @@ def entrenar_modelo(X, y, test_size: float = 0.2):
             cv_mean = cv_scores.mean()
             cv_std = cv_scores.std()
 
-            print(f"      📊 CV Score (5-fold): {cv_mean:.3f} ± {cv_std:.3f}")
+            print(f"       CV Score (5-fold): {cv_mean:.3f} ± {cv_std:.3f}")
 
             # Entrenar con todos los datos de train
             modelo.fit(X_train, y_train)
@@ -429,7 +314,7 @@ def entrenar_modelo(X, y, test_size: float = 0.2):
                 'cv_std': cv_std
             }
 
-            print(f"      ✅ Accuracy test: {accuracy:.3f}")
+            print(f"       Accuracy test: {accuracy:.3f}")
 
             # Seleccionar el mejor (pesando CV y test)
             score_total = cv_mean * 0.4 + accuracy * 0.6  # Ponderación
@@ -440,11 +325,11 @@ def entrenar_modelo(X, y, test_size: float = 0.2):
                 mejor_nombre = nombre
 
         except Exception as e:
-            print(f"      ❌ Error: {str(e)[:50]}...")
+            print(f"       Error: {str(e)[:50]}...")
 
     # 4. Resultados detallados
     print("\n" + "=" * 60)
-    print("📈 RESULTADOS DETALLADOS")
+    print(" RESULTADOS DETALLADOS")
     print("=" * 60)
 
     print("\nModelo                    | CV Mean  | CV Std   | Test Acc | Score")
@@ -456,7 +341,7 @@ def entrenar_modelo(X, y, test_size: float = 0.2):
             f"{nombre:25} | {datos['cv_mean']:.3f}    | {datos['cv_std']:.3f}    | {datos['accuracy']:.3f}    | {score:.3f}")
 
     print("\n" + "=" * 60)
-    print(f"🏆 MEJOR MODELO: {mejor_nombre}")
+    print(f"MEJOR MODELO: {mejor_nombre}")
 
     if mejor_nombre in resultados:
         print(f"   • Accuracy test: {resultados[mejor_nombre]['accuracy']:.3f}")
@@ -469,10 +354,7 @@ def entrenar_modelo(X, y, test_size: float = 0.2):
     print(f"\n ANÁLISIS DE RENDIMIENTO:")
     print(f"   • Baseline (aleatorio): {baseline:.3f}")
     print(f"   • Mejora sobre baseline: {mejora_test:+.1f}%")
-
-
     return mejor_modelo
-
 
 def guardar_modelo(modelo, ruta: str = None):
     """Guarda el modelo entrenado en un archivo."""
@@ -517,60 +399,110 @@ class JugadorIA:
         self.modelo = None
         self.historial = []  # Lista de (jugada_j1, jugada_j2)
 
-        # TODO: Carga el modelo si existe
-        # try:
-        #     self.modelo = cargar_modelo(ruta_modelo)
-        # except FileNotFoundError:
-        #     print("Modelo no encontrado. Entrena primero.")
+        try:
+            self.modelo = cargar_modelo(ruta_modelo)
+        except FileNotFoundError:
+            print("Modelo no encontrado. Entrena primero.")
 
     def registrar_ronda(self, jugada_j1: str, jugada_j2: str):
-        """
-        Registra una ronda jugada para actualizar el historial.
-
-        Args:
-            jugada_j1: Jugada del jugador 1
-            jugada_j2: Jugada del oponente
-        """
         self.historial.append((jugada_j1, jugada_j2))
+        if len(self.historial) > 50:
+            self.historial = self.historial[-50:]
 
     def obtener_features_actuales(self) -> np.ndarray:
         """
-        Genera las features basadas en el historial actual.
-
-        TODO: Implementa esta funcion
-        - Usa el historial para calcular las mismas features que usaste en entrenamiento
-        - Retorna un array con las features
-
-        Returns:
-            Array con las features para la prediccion
+        Genera las 8 features básicas basadas en el historial actual.
         """
-        # TODO: Calcula las features basadas en self.historial
-        # Deben ser LAS MISMAS features que usaste para entrenar
+        # Si no hay historial, retornar valores por defecto
+        if len(self.historial) < 2:
+            # 8 features con valores por defecto
+            return np.array([[0.333, 0.333, 0.333, 0, 0, 0, 0.5, 0]]).reshape(1, -1)
 
-        pass  # Elimina esta linea cuando implementes
+        # Convertir historial a numérico
+        jugadas_j1 = []
+        jugadas_j2 = []
+        for j1, j2 in self.historial:
+            jugadas_j1.append(JUGADA_A_NUM[j1])
+            jugadas_j2.append(JUGADA_A_NUM[j2])
+
+        jugadas_j1 = np.array(jugadas_j1)
+        jugadas_j2 = np.array(jugadas_j2)
+
+        # --------------------------------------------------------------------
+        # CALCULAR LAS 8 FEATURES BÁSICAS
+        # --------------------------------------------------------------------
+
+        # FEATURE 1-3: Frecuencias en últimas 5 jugadas
+        ultimas_5 = jugadas_j2[-5:] if len(jugadas_j2) >= 5 else jugadas_j2
+        freq_piedra = np.sum(ultimas_5 == 0) / max(len(ultimas_5), 1)
+        freq_papel = np.sum(ultimas_5 == 1) / max(len(ultimas_5), 1)
+        freq_tijera = np.sum(ultimas_5 == 2) / max(len(ultimas_5), 1)
+
+        # FEATURE 4: Última jugada
+        ultima_jugada = jugadas_j2[-1] if len(jugadas_j2) > 0 else 0
+
+        # FEATURE 5: ¿Repitió?
+        repetido = 0
+        if len(jugadas_j2) >= 2:
+            repetido = 1 if jugadas_j2[-1] == jugadas_j2[-2] else 0
+
+        # FEATURE 6: Resultado anterior
+        resultado_anterior = 0
+        if len(self.historial) >= 2:
+            j1_ant, j2_ant = self.historial[-2]
+            if GANA_A[j1_ant] == j2_ant:  # Ganó J1
+                resultado_anterior = 1
+            elif GANA_A[j2_ant] == j1_ant:  # Ganó J2
+                resultado_anterior = -1
+            else:
+                resultado_anterior = 0
+
+        # FEATURE 7: Fase del juego
+        fase_juego = min(len(self.historial) / 50.0, 1.0)
+
+        # FEATURE 8: Tendencia dominante en últimas 3
+        tendencia_3 = 0
+        if len(jugadas_j2) >= 1:
+            ultimas_3 = jugadas_j2[-3:] if len(jugadas_j2) >= 3 else jugadas_j2
+            counts = np.bincount(ultimas_3.astype(int), minlength=3)
+            tendencia_3 = np.argmax(counts)
+
+        # --------------------------------------------------------------------
+        # CREAR ARRAY CON LAS 8 FEATURES EN ORDEN CORRECTO
+        # --------------------------------------------------------------------
+        features = np.array([[
+            freq_piedra,  # Feature 1
+            freq_papel,  # Feature 2
+            freq_tijera,  # Feature 3
+            ultima_jugada,  # Feature 4
+            repetido,  # Feature 5
+            resultado_anterior,  # Feature 6
+            fase_juego,  # Feature 7
+            tendencia_3  # Feature 8
+        ]], dtype=np.float64)
+
+        # Asegurar que no hay NaN
+        features = np.nan_to_num(features, nan=0.0)
+
+        return features
 
     def predecir_jugada_oponente(self) -> str:
         """
         Predice la proxima jugada del oponente.
-
-        TODO: Implementa esta funcion
-        - Usa obtener_features_actuales() para obtener las features
-        - Usa el modelo para predecir
-        - Convierte la prediccion numerica a texto
-
-        Returns:
-            Jugada predicha del oponente (piedra/papel/tijera)
         """
         if self.modelo is None:
-            # Si no hay modelo, juega aleatorio
             return np.random.choice(["piedra", "papel", "tijera"])
 
-        # TODO: Implementa la prediccion
-        # features = self.obtener_features_actuales()
-        # prediccion = self.modelo.predict([features])[0]
-        # return NUM_A_JUGADA[prediccion]
+        features = self.obtener_features_actuales()
 
-        pass  # Elimina esta linea cuando implementes
+        # Siempre retorna algo (no necesita chequeo)
+        try:
+            prediccion_num = self.modelo.predict(features)[0]
+            return NUM_A_JUGADA[prediccion_num]
+        except Exception as e:
+            print(f"Error en predicción: {e}")
+            return np.random.choice(["piedra", "papel", "tijera"])
+
 
     def decidir_jugada(self) -> str:
         """
@@ -612,7 +544,7 @@ def main():
     df_features = crear_features(df_preparado)
 
     # 4. Seleccionar features
-    X, y = seleccionar_features(df_features)
+    X, y= seleccionar_features(df_features)
 
     # 5. Entrenar modelo
     modelo = entrenar_modelo(X, y)
