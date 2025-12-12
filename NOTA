@@ -1,0 +1,577 @@
+============================================================
+   RPSAI - EVALUACION DE WINRATE
+============================================================
+
+Se jugaran 50 rondas contra tu modelo de IA.
+Juega de forma natural, como lo harias normalmente.
+
+Presiona ENTER para comenzar la evaluacion...
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 1 ---
+Tu: A (papel)
+IA: A (papel)
+>>> Empate <<<
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 2 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 2/50] IA: 0V-1D-1E (Winrate: 0.0%) | Quedan: 48
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 3 ---
+Tu: P (piedra)
+IA: A (papel)
+>>> IA GANA <<<
+
+[Progreso: 3/50] IA: 1V-1D-1E (Winrate: 50.0%) | Quedan: 47
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 4 ---
+Tu: P (piedra)
+IA: P (piedra)
+>>> Empate <<<
+
+[Progreso: 4/50] IA: 1V-1D-2E (Winrate: 50.0%) | Quedan: 46
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 5 ---
+Tu: P (piedra)
+IA: A (papel)
+>>> IA GANA <<<
+
+[Progreso: 5/50] IA: 2V-1D-2E (Winrate: 66.7%) | Quedan: 45
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 6 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 6/50] IA: 3V-1D-2E (Winrate: 75.0%) | Quedan: 44
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 7 ---
+Tu: A (papel)
+IA: T (tijera)
+>>> IA GANA <<<
+
+[Progreso: 7/50] IA: 4V-1D-2E (Winrate: 80.0%) | Quedan: 43
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 8 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 8/50] IA: 5V-1D-2E (Winrate: 83.3%) | Quedan: 42
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 9 ---
+Tu: A (papel)
+IA: P (piedra)
+>>> Tu ganas <<<
+
+[Progreso: 9/50] IA: 5V-2D-2E (Winrate: 71.4%) | Quedan: 41
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 10 ---
+Tu: A (papel)
+IA: T (tijera)
+>>> IA GANA <<<
+
+[Progreso: 10/50] IA: 6V-2D-2E (Winrate: 75.0%) | Quedan: 40
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 11 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 11/50] IA: 6V-3D-2E (Winrate: 66.7%) | Quedan: 39
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 12 ---
+Tu: P (piedra)
+IA: A (papel)
+>>> IA GANA <<<
+
+[Progreso: 12/50] IA: 7V-3D-2E (Winrate: 70.0%) | Quedan: 38
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 13 ---
+Tu: T (tijera)
+IA: T (tijera)
+>>> Empate <<<
+
+[Progreso: 13/50] IA: 7V-3D-3E (Winrate: 70.0%) | Quedan: 37
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 14 ---
+Tu: T (tijera)
+IA: T (tijera)
+>>> Empate <<<
+
+[Progreso: 14/50] IA: 7V-3D-4E (Winrate: 70.0%) | Quedan: 36
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 15 ---
+Tu: T (tijera)
+IA: A (papel)
+>>> Tu ganas <<<
+
+[Progreso: 15/50] IA: 7V-4D-4E (Winrate: 63.6%) | Quedan: 35
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 16 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 16/50] IA: 8V-4D-4E (Winrate: 66.7%) | Quedan: 34
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 17 ---
+Tu: A (papel)
+IA: A (papel)
+>>> Empate <<<
+
+[Progreso: 17/50] IA: 8V-4D-5E (Winrate: 66.7%) | Quedan: 33
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 18 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 18/50] IA: 9V-4D-5E (Winrate: 69.2%) | Quedan: 32
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 19 ---
+Tu: P (piedra)
+IA: P (piedra)
+>>> Empate <<<
+
+[Progreso: 19/50] IA: 9V-4D-6E (Winrate: 69.2%) | Quedan: 31
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 20 ---
+Tu: A (papel)
+IA: P (piedra)
+>>> Tu ganas <<<
+
+[Progreso: 20/50] IA: 9V-5D-6E (Winrate: 64.3%) | Quedan: 30
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 21 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 21/50] IA: 10V-5D-6E (Winrate: 66.7%) | Quedan: 29
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 22 ---
+Tu: P (piedra)
+IA: A (papel)
+>>> IA GANA <<<
+
+[Progreso: 22/50] IA: 11V-5D-6E (Winrate: 68.8%) | Quedan: 28
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 23 ---
+Tu: A (papel)
+IA: T (tijera)
+>>> IA GANA <<<
+
+[Progreso: 23/50] IA: 12V-5D-6E (Winrate: 70.6%) | Quedan: 27
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 24 ---
+Tu: A (papel)
+IA: T (tijera)
+>>> IA GANA <<<
+
+[Progreso: 24/50] IA: 13V-5D-6E (Winrate: 72.2%) | Quedan: 26
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 25 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 25/50] IA: 14V-5D-6E (Winrate: 73.7%) | Quedan: 25
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 26 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 26/50] IA: 15V-5D-6E (Winrate: 75.0%) | Quedan: 24
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 27 ---
+Tu: T (tijera)
+IA: A (papel)
+>>> Tu ganas <<<
+
+[Progreso: 27/50] IA: 15V-6D-6E (Winrate: 71.4%) | Quedan: 23
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 28 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 28/50] IA: 15V-7D-6E (Winrate: 68.2%) | Quedan: 22
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 29 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 29/50] IA: 15V-8D-6E (Winrate: 65.2%) | Quedan: 21
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 30 ---
+Tu: P (piedra)
+IA: P (piedra)
+>>> Empate <<<
+
+[Progreso: 30/50] IA: 15V-8D-7E (Winrate: 65.2%) | Quedan: 20
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 31 ---
+Tu: A (papel)
+IA: T (tijera)
+>>> IA GANA <<<
+
+[Progreso: 31/50] IA: 16V-8D-7E (Winrate: 66.7%) | Quedan: 19
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 32 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 32/50] IA: 17V-8D-7E (Winrate: 68.0%) | Quedan: 18
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 33 ---
+Tu: A (papel)
+IA: P (piedra)
+>>> Tu ganas <<<
+
+[Progreso: 33/50] IA: 17V-9D-7E (Winrate: 65.4%) | Quedan: 17
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 34 ---
+Tu: A (papel)
+IA: A (papel)
+>>> Empate <<<
+
+[Progreso: 34/50] IA: 17V-9D-8E (Winrate: 65.4%) | Quedan: 16
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 35 ---
+Tu: P (piedra)
+IA: P (piedra)
+>>> Empate <<<
+
+[Progreso: 35/50] IA: 17V-9D-9E (Winrate: 65.4%) | Quedan: 15
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 36 ---
+Tu: T (tijera)
+IA: T (tijera)
+>>> Empate <<<
+
+[Progreso: 36/50] IA: 17V-9D-10E (Winrate: 65.4%) | Quedan: 14
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 37 ---
+Tu: T (tijera)
+IA: T (tijera)
+>>> Empate <<<
+
+[Progreso: 37/50] IA: 17V-9D-11E (Winrate: 65.4%) | Quedan: 13
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 38 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 38/50] IA: 18V-9D-11E (Winrate: 66.7%) | Quedan: 12
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 39 ---
+Tu: P (piedra)
+IA: P (piedra)
+>>> Empate <<<
+
+[Progreso: 39/50] IA: 18V-9D-12E (Winrate: 66.7%) | Quedan: 11
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 40 ---
+Tu: A (papel)
+IA: T (tijera)
+>>> IA GANA <<<
+
+[Progreso: 40/50] IA: 19V-9D-12E (Winrate: 67.9%) | Quedan: 10
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 41 ---
+Tu: T (tijera)
+IA: T (tijera)
+>>> Empate <<<
+
+[Progreso: 41/50] IA: 19V-9D-13E (Winrate: 67.9%) | Quedan: 9
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 42 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 42/50] IA: 20V-9D-13E (Winrate: 69.0%) | Quedan: 8
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 43 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 43/50] IA: 20V-10D-13E (Winrate: 66.7%) | Quedan: 7
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 44 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 44/50] IA: 20V-11D-13E (Winrate: 64.5%) | Quedan: 6
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 45 ---
+Tu: A (papel)
+IA: P (piedra)
+>>> Tu ganas <<<
+
+[Progreso: 45/50] IA: 20V-12D-13E (Winrate: 62.5%) | Quedan: 5
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 46 ---
+Tu: A (papel)
+IA: P (piedra)
+>>> Tu ganas <<<
+
+[Progreso: 46/50] IA: 20V-13D-13E (Winrate: 60.6%) | Quedan: 4
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 47 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 47/50] IA: 20V-14D-13E (Winrate: 58.8%) | Quedan: 3
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 1
+
+--- Ronda 48 ---
+Tu: P (piedra)
+IA: T (tijera)
+>>> Tu ganas <<<
+
+[Progreso: 48/50] IA: 20V-15D-13E (Winrate: 57.1%) | Quedan: 2
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 3
+
+--- Ronda 49 ---
+Tu: T (tijera)
+IA: P (piedra)
+>>> IA GANA <<<
+
+[Progreso: 49/50] IA: 21V-15D-13E (Winrate: 58.3%) | Quedan: 1
+Error en predicción: X has 8 features, but RandomForestClassifier is expecting 25 features as input.
+
+[1/p] Piedra  [2/a] Papel  [3/t] Tijera
+Tu jugada: 2
+
+--- Ronda 50 ---
+Tu: A (papel)
+IA: T (tijera)
+>>> IA GANA <<<
+
+[Progreso: 50/50] IA: 22V-15D-13E (Winrate: 59.5%) | Quedan: 0
+
+============================================================
+   RESULTADOS FINALES
+============================================================
+
+Rondas jugadas: 50
+Victorias IA: 22
+Derrotas IA: 15
+Empates: 13
+
+WINRATE DE LA IA: 59.5%
+
+============================================================
+   NOTA MODO 1 (Winrate): 10/10
+   BONUS: Fallos en examen no restan!
+============================================================
+
+Tabla de referencia:
+  33%- = 0  |  35% = 1  |  37% = 2  |  39% = 3
+  40% = 4   |  42% = 5  |  44% = 6  |  46% = 7
+  48% = 8   |  49% = 9  |  50%+ = 10 | 55%+ = BONUS
